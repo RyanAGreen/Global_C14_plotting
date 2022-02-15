@@ -41,6 +41,7 @@ Chen = chen[chen['water.depth']==627]
 # Rafter
 Rafter = pd.read_csv(obspath + 'Rafter_2019.tab',sep='\t', header=24)
 Rafter["Cal age [ka BP]"] = 1000 * Rafter["Cal age [ka BP]"]
+Rafter = Rafter.sort_values(by=['Cal age [ka BP]'])
 
 GoCobs = [Mar,Stott,Rafter]
 
@@ -52,11 +53,10 @@ for i in range(3):
     GoCobs[i] = GoCobs[i][GoCobs[i]['year']<20000]
     GoCobs[i]['year'] = GoCobs[i]['year'].apply(f.fix)
 
-Lats = [23.50,-1.22,22.90]
+Lats = [23.50,-1.22,22.90] # grabbed these values manually from Chen2020
 Lons = [-111.60,-89.68,-109.50]
 
-# markers = ['o','v','s','D']
-markers = ['o','s','D']
+markers = ['o','v','s']
 
 fig,axs = plt.subplots(2, 1, sharex=True,figsize=(9,11))
 fig.subplots_adjust(hspace=-0.15)
