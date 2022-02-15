@@ -1,0 +1,1 @@
+The different numbers here are different X factors which change the initial state. Optimal comes out of 1.045 which gets our D14C to 415 IS. This is also optimal with taking only 5% of the 2D algorithm carbon amount. Hence the folder that this is in
