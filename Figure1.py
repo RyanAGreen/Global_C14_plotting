@@ -38,9 +38,11 @@ Stott = Stott[Stott['ref.']=='Stott et al. (2009)']
 Chen = chen[chen['water.depth']==627]
 
 # Rafter
-Rafter1 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/ET97-7T_radiocarbon.tab',sep='\t',header=0,skiprows=110)
-Rafter2 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21P_radiocarbon.tab',sep='\t',header=0,skiprows=110)
-Rafter3 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21PG_radiocarbon.tab',sep='\t',header=0,skiprows=110)
+# Rafter
+Rafter = chen[chen['ref.']=='Rafter et al. (2018)']
+# Rafter1 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/ET97-7T_radiocarbon.tab',sep='\t',header=0,skiprows=110)
+# Rafter2 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21P_radiocarbon.tab',sep='\t',header=0,skiprows=110)
+# Rafter3 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21PG_radiocarbon.tab',sep='\t',header=0,skiprows=110)
 
 
 GoCobs_fromChen = [Mar,Stott,Rafter,Chen]
