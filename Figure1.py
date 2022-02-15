@@ -28,7 +28,8 @@ D14C['year'] = D14C['year'].apply(f.fix)
 chen = pd.read_csv(obspath + 'Chen2020.txt',sep='\t',header=0,skiprows=110)
 
 # Marchitto
-Mar = pd.read_csv(obspath + 'Marchitto.txt',sep='\t',header=0,skiprows=110)
+Mar = pd.read_csv(obspath + 'Marchitto.txt',sep='\s+')
+Mar["Cal.Age"] = 1000 * Mar["Cal.Age"]
 
 # Stott
 Stott = chen[chen['water.depth']==617]
@@ -38,21 +39,24 @@ Stott = Stott[Stott['ref.']=='Stott et al. (2009)']
 Chen = chen[chen['water.depth']==627]
 
 # Rafter
-# Rafter
-Rafter = chen[chen['ref.']=='Rafter et al. (2018)']
-# Rafter1 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/ET97-7T_radiocarbon.tab',sep='\t',header=0,skiprows=110)
-# Rafter2 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21P_radiocarbon.tab',sep='\t',header=0,skiprows=110)
-# Rafter3 = pd.read_csv(obspath + 'Rafter-etal_2018/datasets/LPAZ-21PG_radiocarbon.tab',sep='\t',header=0,skiprows=110)
+Rafter = pd.read_csv(obspath + 'Rafter_2019.tab',sep='\t', header=24)
+Rafter["Cal age [ka BP]"] = 1000 * Rafter["Cal age [ka BP]"]
 
+GoCobs = [Mar,Stott,Rafter]
 
-GoCobs_fromChen = [Mar,Stott,Rafter,Chen]
+GoCobs[0] = GoCobs[0].rename(columns = {'Cal.Age':'year','D14C':'D14CintNP',})
+GoCobs[1] = GoCobs[1].rename(columns = {'cal.age':'year','benthic.D14C':'D14CintNP'})
+GoCobs[2] = GoCobs[2].rename(columns = {'Cal age [ka BP]':'year','Δ14C [‰]':'D14CintNP'})
 
-for i in range(4):
-    GoCobs_fromChen[i] = GoCobs_fromChen[i].rename(columns = {'cal.age':'year','benthic.D14C':'D14CintNP'})
-    GoCobs_fromChen[i] = GoCobs_fromChen[i][GoCobs_fromChen[i]['year']<20000]
-    GoCobs_fromChen[i]['year'] = GoCobs_fromChen[i]['year'].apply(f.fix)
+for i in range(3):
+    GoCobs[i] = GoCobs[i][GoCobs[i]['year']<20000]
+    GoCobs[i]['year'] = GoCobs[i]['year'].apply(f.fix)
 
-markers = ['o','v','s','D']
+Lats = [23.50,-1.22,22.90]
+Lons = [-111.60,-89.68,-109.50]
+
+# markers = ['o','v','s','D']
+markers = ['o','s','D']
 
 fig,axs = plt.subplots(2, 1, sharex=True,figsize=(9,11))
 fig.subplots_adjust(hspace=-0.15)
@@ -78,7 +82,7 @@ axs[1].set_ylabel("∆$^{14}$C (‰)",fontsize=15,fontweight='bold')
 axs[1].set_xlabel("Calendar age (kyr BP)",fontsize=15,fontweight='bold')
 axs[1].set_xlim((0,20))
 labels = ['Marchitto et al. 2007','Stott et al. 2009','Rafter et al. 2018','Chen et al. 2020']
-Anomalies = [GoCobs_fromChen[0],GoCobs_fromChen[1],GoCobs_fromChen[2],GoCobs_fromChen[3]]
+Anomalies = [GoCobs[0],GoCobs[1],GoCobs[2]]
 for i in range(len(Anomalies)):
     axs[1].plot(Anomalies[i].year,Anomalies[i].D14CintNP,marker=markers[i],markeredgecolor='k',markerfacecolor='white', color = '#a65628',label = labels[i],markersize=10,lw=4,zorder=2)
 axs[1].plot(D14C.year,D14C.D14C,color = 'darkgray',ls = "-",label="∆$^{14}$C and CO$_2$ observations",lw=4)
@@ -88,12 +92,6 @@ axs[1].plot(D14C.year,D14C.D14C,color = 'darkgray',ls = "-",label="∆$^{14}$C a
 
 axs[1].legend(loc='upper right', bbox_to_anchor=(0.94, 1.1), fontsize=12,ncol=1,frameon=False)
 
-Lats = []
-Lons = []
-
-for i in range(len(Anomalies)):
-    Lats.append(GoCobs_fromChen[i]['lat.'].mean())
-    Lons.append(GoCobs_fromChen[i]['lon.'].mean())
 
 ax2.plot(CO2obs.year,CO2obs.CO2,color = 'darkgray',ls = "-",label='Atmospheric CO2 observations',lw=4)
 
@@ -139,4 +137,4 @@ ax2.tick_params(axis="both", direction="in", length=7, width=3, color="black")
 ax2.set_ylim(175,290)
 axs[1].set_xlim(0,20)
 plt.savefig('Figures/Figure1.pdf')
-#plt.show()
+# plt.show()
