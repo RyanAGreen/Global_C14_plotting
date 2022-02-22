@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 *.pdf
 Figures/
+Figures/*.pdf
 .Python
 build/
 develop-eggs/
