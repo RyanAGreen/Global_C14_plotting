@@ -89,6 +89,10 @@ ax[0].set_title('North Pacific',fontweight='bold',pad=15)
 ax[1].set_title('Global',fontweight='bold',pad=15)
 ax[1].legend()
 
+names = ['a)','b)']
+for i in range(2):
+    ax[i].text(1,5.3,names[i],fontweight='bold',fontsize=10)
+
 plt.tight_layout()
 # plt.show()
 plt.savefig('Figures/Figure5.pdf')

@@ -296,6 +296,14 @@ ax[4].set_yticklabels([])
 ax[6].get_shared_y_axes().join(ax[6], ax[7])
 ax[6].set_yticklabels([])
 
+ax[0].set_title('No change in IS',fontweight='bold')
+ax[1].set_title('Change in IS',fontweight='bold')
+
+names = ['a)','e)','b)','f)','c)','g)','d)','h)']
+yloc = [140,140,130,130,130,130,2500,2500]
+for i in range(8):
+    ax[i].text(0.1,yloc[i],names[i],fontweight='bold',fontsize=10)
+
 # legends
 
 oneDall_legend = mpatches.Patch(color='darkgray',alpha=0.5, label='1D inversion ensemble')
@@ -309,5 +317,5 @@ ax[7].set_xlim(-0.1,2.1)
 plt.subplots_adjust(wspace=0.1)
 # ax[3].set_xlim(-0.15,2.15)
 #plt.tight_layout()
-# plt.savefig('Figures/Figure3.pdf')
-plt.show()
+plt.savefig('Figures/Figure3.pdf')
+# plt.show()
